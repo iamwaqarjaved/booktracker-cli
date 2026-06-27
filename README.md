@@ -1,6 +1,6 @@
 # 📚 BookTracker CLI
 
-> A command-line personal reading list manager — Python Module 8 capstone project.
+> A command-line personal reading list manager — Python capstone project.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -314,8 +314,7 @@ booktracker-cli/
 
 ## Credits
 
-Built by **Waqar Javed** as the Module 8 capstone — Programming with Python.  
-IEEE Senior Member · Founder, [Safe Labs AI Inc.](https://agentsafelabs.com)  
+Built by **Waqar Javed** as the capstone — Programming with Python.
 GitHub: [@iamwaqarjaved](https://github.com/iamwaqarjaved)
 
 ---
