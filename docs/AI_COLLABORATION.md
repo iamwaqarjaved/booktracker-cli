@@ -5,7 +5,8 @@
 **Project:** BookTracker CLI  
 **Author:** Waqar Javed  
 **Date:** June 2025  
-**Repository:** `docs/AI_COLLABORATION.md`  
+**Repository:** [github.com/iamwaqarjaved/booktracker-cli](https://github.com/iamwaqarjaved/booktracker-cli)  
+**This File:** [`docs/AI_COLLABORATION.md`](https://github.com/iamwaqarjaved/booktracker-cli/blob/main/docs/AI_COLLABORATION.md)  
 **Cross-reference:** `docs/ADL.md` (Architecture Decision Log)
 
 ---
@@ -272,4 +273,4 @@ I understand that false statements in this appendix constitute an academic-integ
 
 ---
 
-*This document is part of the BookTracker CLI capstone repository. See also: `docs/ADL.md` (Architecture Decision Log), `README.md`, and the `/tests` directory.*
+*This document is part of the BookTracker CLI capstone repository at [github.com/iamwaqarjaved/booktracker-cli](https://github.com/iamwaqarjaved/booktracker-cli). See also: [`README.md`](https://github.com/iamwaqarjaved/booktracker-cli/blob/main/README.md), [`/tests`](https://github.com/iamwaqarjaved/booktracker-cli/tree/main/tests), and `docs/ADL.md` (Architecture Decision Log).*
