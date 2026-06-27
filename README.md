@@ -96,6 +96,7 @@ Commands:
 
 ### Installation & `--help`
 
+![booktracker --installation](docs/screenshots/screenshot_installation.png)
 ![booktracker --help](docs/screenshots/screenshot_help.png)
 
 `pip3 install -e .` completes successfully and `booktracker --help` prints the
