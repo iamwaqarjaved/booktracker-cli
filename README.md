@@ -305,10 +305,18 @@ booktracker-cli/
 
 ## Demo Screencast
 
-> **5-minute walkthrough:** install → add books → track progress → finish with
-> rating → view list + stats → inspect raw JSON store.
->
-> 📹 _[Link to be added before final submission]_
+**7-minute walkthrough:** install → add books → track progress → finish with rating → view list + stats → inspect raw JSON store.
+ 
+[![BookTracker CLI Demo](https://img.youtube.com/vi/vcex6zLIHoI/maxresdefault.jpg)](https://www.youtube.com/watch?v=vcex6zLIHoI)
+ 
+📹 **[Watch on YouTube → https://www.youtube.com/watch?v=vcex6zLIHoI](https://www.youtube.com/watch?v=vcex6zLIHoI)**
+ 
+Covers:
+- `pip3 install -e .` from a fresh clone
+- All 8 sub-commands live in the terminal
+- `booktracker list` table and `booktracker stats` output
+- Raw JSON store at `~/.booktracker/books.json`
+- `pytest tests/ -v` — 29 tests passing
 
 ---
 
