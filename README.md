@@ -314,8 +314,9 @@ booktracker-cli/
 
 ## Credits
 
-Built by **Waqar Javed** as the capstone — Programming with Python.
-GitHub: [@iamwaqarjaved](https://github.com/iamwaqarjaved)
+> Built by **Waqar Javed**.
+>
+> Website: [Waqarjaved.com](https://waqarjaved.com/)
 
 ---
 
