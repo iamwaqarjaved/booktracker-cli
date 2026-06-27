@@ -1,22 +1,25 @@
 # 📚 BookTracker CLI
 
-> A command-line personal reading list manager — built as a Python Module 8 capstone.
+> A command-line personal reading list manager — Python Module 8 capstone project.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-29%20passed-brightgreen.svg)]()
+[![Course](https://img.shields.io/badge/course-CIT%2020411-orange.svg)]()
 
 ---
 
 ## Purpose
 
 BookTracker lets any developer manage their reading list entirely from the terminal.
-Add books, track pages, mark them done, record star ratings, and view statistics —
-all persisted as a plain JSON file you fully control. No account, no cloud, no ads.
+Add books, track pages, mark them done, record star ratings, and view reading
+statistics — all persisted as a plain JSON file you fully control.
 
-**Who is it for?**  
+No account. No cloud. No external dependencies.
+
+**Who is it for?**
 Anyone comfortable in a terminal who wants a zero-friction reading log that lives
-alongside their dotfiles.
+alongside their dotfiles and works completely offline.
 
 ---
 
@@ -27,37 +30,38 @@ alongside their dotfiles.
 git clone https://github.com/iamwaqarjaved/booktracker-cli.git
 cd booktracker-cli
 
-# 2 — install (editable mode — works from a fresh clone)
-pip install -e .
+# 2 — install in editable mode (pip3 on macOS)
+pip3 install -e .
 
-# 3 — confirm
+# 3 — confirm the CLI is live
 booktracker --help
 ```
 
-**Requirements:** Python 3.10 or later · no external runtime dependencies.
+**Requirements:** Python 3.10 or later · zero external runtime dependencies (stdlib only).
+
+> **macOS note:** use `pip3` instead of `pip` if `pip` is not found in your shell.
 
 ---
 
 ## Quick Start
 
 ```bash
-# Add books
+# Add books (regular and audiobook)
 booktracker add "Clean Code" "Robert C. Martin" 431
 booktracker add "The Pragmatic Programmer" "Hunt & Thomas" 352
 booktracker add "Atomic Habits" "James Clear" 291 --audio --narrator "Pete Larkin"
 
 # Start reading and track progress
 booktracker start "Clean Code"
-booktracker progress "Clean Code" 215
+booktracker progress "Clean Code" 200
 
-# Finish with a rating
-booktracker start "The Pragmatic Programmer"
-booktracker finish "The Pragmatic Programmer" --rating 4.8
+# Finish with a star rating (0–5)
+booktracker finish "Clean Code" --rating 4.5
 
 # Add a note
 booktracker note "Clean Code" "Functions should do one thing — love this rule."
 
-# View everything
+# View your list and stats
 booktracker list
 booktracker list --status done
 booktracker stats
@@ -71,17 +75,15 @@ booktracker stats
 booktracker [--store FILE] [-v] COMMAND [options]
 
 Commands:
-  add        Add a book (--audio --narrator for audiobooks)
-  start      Mark a book as currently reading
+  add        Add a book           (--audio --narrator for audiobooks)
+  start      Mark as reading
   progress   Update pages read
-  finish     Mark a book as done  [--rating 0-5]
-  remove     Remove a book
+  finish     Mark as done         [--rating 0-5]
+  remove     Delete from list
   list       Show all books       [--status to-read|reading|done] [--sort]
   stats      Aggregate statistics
-  note       Append a note to a book
+  note       Append a note
 ```
-
-**Global flags**
 
 | Flag | Description |
 |---|---|
@@ -92,40 +94,39 @@ Commands:
 
 ## Screenshots
 
-### `booktracker list`
+### Installation & `--help`
+
+![booktracker --help](docs/screenshots/screenshot_help.png)
+
+`pip3 install -e .` completes successfully and `booktracker --help` prints the
+full command menu — proving the package entry point is wired correctly.
+
+---
+
+### Full workflow: add → start → progress → finish → list → stats
+
+![full workflow](docs/screenshots/screenshot_workflow.png)
+
+One terminal session covers the complete lifecycle:
 
 ```
-📚  4 book(s)
-────────────────────────────────────────────────────────────────────────────────────
-Title                            Author                 Status       Progress Rating
-────────────────────────────────────────────────────────────────────────────────────
-Clean Code                       Robert C. Martin       reading        49.9%       —
-The Pragmatic Programmer         Hunt & Thomas          done          100.0%   4.8 ★
-Designing Data-Intensive Applic  Martin Kleppmann       to-read         0.0%       —
-Atomic Habits                    James Clear            to-read         0.0%       —
-────────────────────────────────────────────────────────────────────────────────────
+booktracker add "Clean Code" "Robert C. Martin" 431   →  ✅ Added
+booktracker start "Clean Code"                         →  📖 Started
+booktracker progress "Clean Code" 200                  →  📊 Progress: 46.4%
+booktracker finish "Clean Code" --rating 4.5           →  🎉 Finished ★ 4.5
+booktracker list                                       →  table with done / 100%
+booktracker stats                                      →  Avg rating 4.50 ★
 ```
 
-### `booktracker stats`
+---
 
-```
-📈  Reading Statistics
-──────────────────────────────
-  Total books     : 4
-  Done            : 1
-  Reading now     : 1
-  To read         : 2
-  Pages in list   : 1,685
-  Pages read      : 567
-  Avg rating      : 4.80 ★
-──────────────────────────────
-```
+### Test suite — 29 passed
 
-### `booktracker add` with audiobook flag
+![29 tests passing](docs/screenshots/screenshot_tests.png)
 
-```
-✅  Added: [TO-READ ] Atomic Habits — James Clear (0.0%) [narr. Pete Larkin] 🎧
-```
+All 29 tests across `test_cli.py` and `test_models.py` pass on Python 3.10.5
+in 0.06 s — covering unit tests (Book, AudioBook, ReadingList, recursive
+helpers) and CLI integration tests for every sub-command.
 
 ---
 
@@ -214,7 +215,7 @@ src/booktracker/
 User types: booktracker finish "Clean Code" --rating 4.5
                 │
                 ▼
-           cli.py: _build_parser() → parse args
+           cli.py  →  _build_parser() parses args
                 │
                 ▼
            _handle_finish(args, store)
@@ -222,7 +223,7 @@ User types: booktracker finish "Clean Code" --rating 4.5
            store.load() ──► reads ~/.booktracker/books.json ──► ReadingList
                 │
            rl.get("Clean Code") → Book
-           book.finish(rating=4.5)  ← business logic in model
+           book.finish(rating=4.5)   ← business logic lives in the model
                 │
            store.save(rl) ──► writes updated JSON back to disk
                 │
@@ -234,26 +235,41 @@ User types: booktracker finish "Clean Code" --rating 4.5
 
 ## Concepts Demonstrated (Weeks 1–8)
 
-| Week | Concept | Where |
+| Week | Concept | Location |
 |---|---|---|
-| 1 | Variables, types, expressions | `models.py` fields, `store.py` |
-| 2 | Control flow, loops | `cli.py` list handlers, `store.py` |
-| 3 | Functions, scope | `_sum_pages`, `_sum_pages_read` |
-| 4 | Collections (list, dict) | `ReadingList._books`, `to_dict` |
-| 5 | File I/O, error handling | `Store.load` / `Store.save` |
+| 1 | Variables, types, f-strings | `models.py` fields, `cli.py` output |
+| 2 | Control flow, loops | `cli.py` handlers, `store.py` |
+| 3 | Functions, scope, parameters | `_sum_pages`, `_sum_pages_read` |
+| 4 | Lists, dicts, comprehensions | `ReadingList._books`, `to_dict()` |
+| 5 | File I/O, error handling, logging | `Store.load()` / `Store.save()` |
 | 6 | Classes, OOP basics | `Book`, `ReadingList` |
 | 7 | Inheritance, `@dataclass`, `@classmethod`, `@property` | `AudioBook`, `Book.from_dict`, `Book.progress_pct` |
-| 8 | Dunder methods | `__str__`, `__lt__`, `__hash__`, `__len__`, `__contains__`, `__iter__` |
+| 8 | Dunder methods | `__str__` `__lt__` `__hash__` `__len__` `__contains__` `__iter__` |
+
+### Dunder Method Inventory (9 total — spec minimum: 5)
+
+| Dunder | Class | Purpose |
+|---|---|---|
+| `__init__` | `Book` (via @dataclass) | Field initialisation |
+| `__repr__` | `Book` (via @dataclass), `ReadingList` | Debug string |
+| `__str__` | `Book`, `AudioBook`, `ReadingList` | Human-readable display |
+| `__eq__` | `Book` (via @dataclass) | Value equality |
+| `__lt__` | `Book` | Enables `sorted(books)` by title |
+| `__hash__` | `Book` | Set / dict key support |
+| `__len__` | `ReadingList` | `len(rl)` → book count |
+| `__contains__` | `ReadingList` | `"title" in rl` |
+| `__iter__` | `ReadingList` | `for book in rl:` |
 
 ---
 
 ## Running Tests
 
 ```bash
-pip install pytest
-pytest tests/ -v
-# 29 passed
+pip3 install pytest
+python3 -m pytest tests/ -v
 ```
+
+Expected output: `29 passed in 0.06s`
 
 ---
 
@@ -268,12 +284,19 @@ booktracker-cli/
 │       ├── store.py
 │       └── cli.py
 ├── tests/
+│   ├── __init__.py
 │   ├── test_models.py
 │   └── test_cli.py
+├── docs/
+│   └── screenshots/
+│       ├── screenshot_help.png
+│       ├── screenshot_workflow.png
+│       └── screenshot_tests.png
 ├── pyproject.toml
 ├── requirements.txt
 ├── PROJECT_BRIEF.md
 ├── ARCHITECTURE_DECISIONS.md
+├── LICENSE
 └── README.md
 ```
 
@@ -282,7 +305,7 @@ booktracker-cli/
 ## Demo Screencast
 
 > **5-minute walkthrough:** install → add books → track progress → finish with
-> rating → view list + stats → inspect JSON store.
+> rating → view list + stats → inspect raw JSON store.
 >
 > 📹 _[Link to be added before final submission]_
 
@@ -290,8 +313,8 @@ booktracker-cli/
 
 ## Credits
 
-Built by **Waqar Javed** as the Module 8 capstone for a Python course.  
-IEEE Senior Member · Founder, Safe Labs AI Inc.  
+Built by **Waqar Javed** as the Module 8 capstone — Programming with Python.  
+IEEE Senior Member · Founder, [Safe Labs AI Inc.](https://agentsafelabs.com)  
 GitHub: [@iamwaqarjaved](https://github.com/iamwaqarjaved)
 
 ---
